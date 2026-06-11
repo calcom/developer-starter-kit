@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cal.com Platform Starter
 
-## Getting Started
+A Next.js template for embedding Cal.com Platform flows in your product, without the `@calcom/atoms` SDK. Every component lives in this repository, so you own the visuals, the markup, and the data layer end-to-end.
 
-First, run the development server:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-org%2Fcal-platform-starter&env=CAL_API_KEY,NEXT_PUBLIC_CAL_USERNAME,NEXT_PUBLIC_BRAND_NAME&envDescription=Your%20Cal.com%20API%20key%20and%20default%20username&envLink=https%3A%2F%2Fapp.cal.com%2Fsettings%2Fdeveloper%2Fapi-keys)
+
+## What you get
+
+| Route | What it does |
+| --- | --- |
+| `/` | Landing page with shortcuts to every flow |
+| `/book/[username]/[eventSlug]` | Public booking widget — month calendar, time slots, attendee form, confirmation |
+| `/book/[username]/[eventSlug]?rescheduleUid=…` | Same widget in reschedule mode |
+| `/booking/[uid]` | Manage an existing booking — view, reschedule, cancel |
+| `/forms/[formId]` | Config-driven routing form that maps responses to event types |
+
+Every flow talks to the **Cal.com API v2** through a thin server-side client (`src/lib/cal-api/`). No client-side SDK. No `@calcom/atoms` dependency.
+
+## Stack
+
+- **Next.js 16** (App Router, RSC, Server Actions)
+- **React 19**
+- **Tailwind CSS v4** with CSS-first config
+- **shadcn/ui** primitives, copied into `src/components/ui/`
+- **Biome** for lint + format
+- **bun** for install + scripts
+- **TypeScript strict**
+- **react-day-picker v9** for the month calendar
+- **react-hook-form + zod** for the attendee form
+
+## Quickstart
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
+cp .env.example .env.local
+# Fill in CAL_API_KEY and NEXT_PUBLIC_CAL_USERNAME
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Required | Description |
+| --- | --- | --- |
+| `CAL_API_KEY` | yes | API key from <https://app.cal.com/settings/developer/api-keys> |
+| `CAL_API_URL` | no | Defaults to `https://api.cal.com/v2`. Override for self-hosted |
+| `CAL_API_VERSION` | no | Defaults to `2024-08-13` |
+| `NEXT_PUBLIC_CAL_USERNAME` | no | Default username used by the landing-page shortcuts |
+| `NEXT_PUBLIC_BRAND_NAME` | no | Replaces the brand label across the app |
 
-## Learn More
+## Project layout
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                      # Next.js routes
+│   ├── page.tsx              # landing
+│   ├── book/[username]/[eventSlug]/page.tsx
+│   ├── booking/[uid]/page.tsx
+│   └── forms/[formId]/page.tsx
+├── components/
+│   ├── theme-provider.tsx
+│   └── ui/                   # shadcn primitives — own them, edit them
+├── features/
+│   ├── booker/               # booking widget — every panel and step
+│   ├── booking/              # manage-booking flow
+│   └── routing-form/         # routing form renderer
+└── lib/
+    ├── cal-api/              # typed Cal.com API v2 client (server-only)
+    ├── routing-forms/        # local routing form registry + evaluator
+    └── utils.ts
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The Booker is decomposed into the same panels you would build by hand:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+features/booker/
+├── booker.tsx                # orchestrator (steps, state)
+├── event-meta.tsx            # left panel — host, title, duration, timezone
+├── date-picker.tsx           # middle panel — month calendar
+├── time-slots.tsx            # right panel — slot list
+├── booking-form.tsx          # attendee form (name / email / notes)
+├── booking-confirmation.tsx  # success screen
+├── booker-skeleton.tsx       # loading state
+├── actions.ts                # server actions (fetch slots, create, reschedule)
+├── utils.ts                  # date / timezone helpers
+└── types.ts
+```
 
-## Deploy on Vercel
+## Routing forms
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The starter ships with a **config-driven** routing form (`src/lib/routing-forms/registry.ts`). It mirrors the embedder-facing UX: collect responses, evaluate routes, send the visitor to the matching event type.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The Cal.com API v2 exposes routing forms only under the **organization** scope (`/organizations/{orgId}/routing-forms`). If you have org credentials, replace the local registry with `getOrgRoutingForms` and `getOrgRoutingFormResponses` calls — the renderer doesn't change.
+
+For single-tenant use, edit `src/lib/routing-forms/registry.ts` to define your form structure and routes. Each route maps response equality to either:
+
+- another booker page (`{ kind: "event-type" }`)
+- an external URL (`{ kind: "url" }`)
+- a final message (`{ kind: "message" }`)
+
+## Theming
+
+The shadcn primitives in `src/components/ui/` read CSS variables defined in `src/app/globals.css`. Tweak the `--primary`, `--background`, `--emphasis` tokens (and their `.dark` counterparts) and the entire app follows. Tailwind v4's `@theme inline` block wires those variables to utility classes.
+
+To plug in your brand font, replace the Geist imports in `src/app/layout.tsx`.
+
+## Why not just use `@calcom/atoms`?
+
+`@calcom/atoms` is great when you want batteries-included scheduling and don't care about exact markup. This template targets the opposite: you own every line, swap any primitive, and have nothing to upgrade against. The trade-off is that you build the surface area you need — start with the Booker, add what comes next.
+
+## Scripts
+
+```bash
+bun dev          # next dev
+bun run build    # next build
+bun start        # next start
+bun typecheck    # tsc --noEmit
+bun check        # biome check --write
+bun lint         # biome lint
+bun format       # biome format --write
+```
+
+## License
+
+MIT.
