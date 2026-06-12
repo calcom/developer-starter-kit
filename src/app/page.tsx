@@ -66,7 +66,7 @@ export default async function HomePage() {
       <section className="mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-24 text-center sm:pt-32">
         <div className="inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
           <SparklesIcon className="size-3" />
-          Built on Cal.com Platform · no SDK lock-in
+          Built on Cal.com Developer Starter Kit · no SDK lock-in
         </div>
 
         <h1 className="mt-8 text-balance text-5xl font-semibold tracking-tight sm:text-6xl md:text-7xl">
@@ -74,8 +74,8 @@ export default async function HomePage() {
         </h1>
 
         <p className="mt-6 max-w-2xl text-balance text-base text-muted-foreground sm:text-lg">
-          A Next.js starter that wires Cal.com Platform flows into your product — every component
-          lives here, owned and styled by you.
+          A Next.js starter that wires Cal.com Developer Starter Kit flows into your product — every
+          component lives here, owned and styled by you.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -224,7 +224,7 @@ bun dev`}</code>
                   <code className="rounded bg-muted px-1 py-0.5 text-[11px]">
                     src/components/ui
                   </code>{" "}
-                  — shadcn primitives, edit freely.
+                  — coss/ui primitives, edit freely.
                 </Bullet>
                 <Bullet>
                   <code className="rounded bg-muted px-1 py-0.5 text-[11px]">

@@ -23,5 +23,5 @@ export function getDefaultEventTypeSlug() {
 }
 
 export function getBrandName() {
-  return process.env.NEXT_PUBLIC_BRAND_NAME ?? "Cal Platform Starter";
+  return process.env.NEXT_PUBLIC_BRAND_NAME ?? "Cal Developer Starter Kit";
 }

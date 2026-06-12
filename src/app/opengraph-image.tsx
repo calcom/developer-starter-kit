@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 import { getBrandName } from "@/lib/cal-api/env";
 
 export const runtime = "edge";
-export const alt = "Cal.com Platform Starter";
+export const alt = "Cal.com Developer Starter Kit";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -63,7 +63,7 @@ export default async function OpengraphImage() {
             textTransform: "uppercase",
           }}
         >
-          Platform Starter
+          Developer Starter Kit
         </div>
       </div>
 
@@ -96,8 +96,8 @@ export default async function OpengraphImage() {
             display: "flex",
           }}
         >
-          A Next.js starter that wires Cal.com Platform flows into your product — every component
-          lives here, owned and styled by you.
+          A Next.js starter that wires Cal.com Developer Starter Kit flows into your product — every
+          component lives here, owned and styled by you.
         </div>
       </div>
 

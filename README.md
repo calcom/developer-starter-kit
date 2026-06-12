@@ -21,7 +21,7 @@ Every flow talks to the **Cal.com API v2** through a thin server-side client (`s
 - **Next.js 16** (App Router, RSC, Server Actions)
 - **React 19**
 - **Tailwind CSS v4** with CSS-first config
-- **shadcn/ui** primitives, copied into `src/components/ui/`
+- **coss/ui** primitives, copied into `src/components/ui/`
 - **Biome** for lint + format
 - **bun** for install + scripts
 - **TypeScript strict**
@@ -60,7 +60,7 @@ src/
 │   └── routing/[id]/page.tsx
 ├── components/
 │   ├── theme-provider.tsx
-│   └── ui/                   # shadcn primitives — own them, edit them
+│   └── ui/                   # coss/ui primitives, own them, edit them
 ├── features/
 │   ├── booker/               # booking widget — every panel and step
 │   ├── booking/              # manage-booking flow
@@ -101,7 +101,7 @@ For single-tenant use, edit `src/lib/routing/registry.ts` to define your fields 
 
 ## Theming
 
-The shadcn primitives in `src/components/ui/` read CSS variables defined in `src/app/globals.css`. Tweak the `--primary`, `--background`, `--emphasis` tokens (and their `.dark` counterparts) and the entire app follows. Tailwind v4's `@theme inline` block wires those variables to utility classes.
+The coss/ui primitives in `src/components/ui/` read CSS variables defined in `src/app/globals.css`. Tweak the `--primary`, `--background`, `--emphasis` tokens (and their `.dark` counterparts) and the entire app follows. Tailwind v4's `@theme inline` block wires those variables to utility classes.
 
 ### Fonts
 
