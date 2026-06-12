@@ -59,16 +59,16 @@ export function TimeSlots({
       ) : (
         <div className="flex flex-col gap-2 overflow-y-auto pr-1">
           {slots.map((slot) => {
-            const isSelected = selectedSlot?.time === slot.time;
+            const isSelected = selectedSlot?.start === slot.start;
             return (
               <Button
-                key={slot.time}
+                key={slot.start}
                 type="button"
                 variant={isSelected ? "default" : "outline"}
                 onClick={() => onSelectSlot(slot)}
                 className="h-10 w-full justify-center font-medium tabular-nums"
               >
-                {formatSlotTime(slot.time, timeZone, timeFormat)}
+                {formatSlotTime(slot.start, timeZone, timeFormat)}
               </Button>
             );
           })}

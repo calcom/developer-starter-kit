@@ -4,13 +4,16 @@ import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { CalendarIcon, ClockIcon, GlobeIcon, MapPinIcon } from "lucide-react";
 
+import { Avatar } from "@/components/avatar";
 import type { EventType, Slot } from "@/lib/cal-api/types";
+import { TimezonePicker } from "./timezone-picker";
 import { buildLocationDescription } from "./utils";
 
 type EventMetaProps = {
   eventType: EventType;
   selectedSlot: Slot | null;
   timeZone: string;
+  onTimeZoneChange?: (timeZone: string) => void;
   timeFormat: "12h" | "24h";
   formerSlotStart?: string | null;
 };
@@ -19,6 +22,7 @@ export function EventMeta({
   eventType,
   selectedSlot,
   timeZone,
+  onTimeZoneChange,
   timeFormat,
   formerSlotStart,
 }: EventMetaProps) {
@@ -28,7 +32,7 @@ export function EventMeta({
   return (
     <div className="flex flex-col gap-6 p-6 sm:p-8">
       <div className="flex items-center gap-3">
-        <Avatar name={host?.name ?? host?.username ?? "Host"} avatarUrl={host?.avatarUrl} />
+        <Avatar name={host?.name ?? host?.username ?? "Host"} src={host?.avatarUrl} />
         <p className="text-sm font-medium text-muted-foreground">
           {host?.name ?? host?.username ?? "Host"}
         </p>
@@ -60,9 +64,9 @@ export function EventMeta({
         {selectedSlot ? (
           <MetaRow icon={<CalendarIcon className="size-4" />}>
             <span className="font-medium">
-              {formatInTimeZone(new Date(selectedSlot.time), timeZone, "EEE, MMM d · ")}
+              {formatInTimeZone(new Date(selectedSlot.start), timeZone, "EEE, MMM d · ")}
               {formatInTimeZone(
-                new Date(selectedSlot.time),
+                new Date(selectedSlot.start),
                 timeZone,
                 timeFormat === "12h" ? "h:mm a" : "HH:mm",
               )}
@@ -81,7 +85,11 @@ export function EventMeta({
         ) : null}
 
         <MetaRow icon={<GlobeIcon className="size-4" />}>
-          <span>{timeZone}</span>
+          {onTimeZoneChange ? (
+            <TimezonePicker value={timeZone} onChange={onTimeZoneChange} />
+          ) : (
+            <span>{timeZone}</span>
+          )}
         </MetaRow>
       </ul>
     </div>
@@ -94,30 +102,6 @@ function MetaRow({ icon, children }: { icon: React.ReactNode; children: React.Re
       <span className="mt-0.5 text-muted-foreground">{icon}</span>
       <span className="leading-tight">{children}</span>
     </li>
-  );
-}
-
-function Avatar({ name, avatarUrl }: { name: string; avatarUrl?: string | null }) {
-  if (avatarUrl) {
-    return (
-      <img
-        src={avatarUrl}
-        alt={name}
-        className="h-9 w-9 rounded-full border bg-muted object-cover"
-      />
-    );
-  }
-  const initials = name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-  return (
-    <div className="flex h-9 w-9 items-center justify-center rounded-full border bg-muted text-xs font-medium">
-      {initials || "?"}
-    </div>
   );
 }
 

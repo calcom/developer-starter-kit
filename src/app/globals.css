@@ -105,6 +105,9 @@
   --color-emphasis: var(--emphasis);
   --color-subtle: var(--subtle);
 
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-heading), var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -119,5 +122,103 @@
     background-color: var(--background);
     color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Customizer presets — override --primary and --radius via [data-*] on <html> */
+[data-primary="blue"] {
+  --primary: oklch(0.55 0.2 252);
+  --ring: oklch(0.55 0.2 252);
+}
+[data-primary="violet"] {
+  --primary: oklch(0.55 0.22 295);
+  --ring: oklch(0.55 0.22 295);
+}
+[data-primary="pink"] {
+  --primary: oklch(0.6 0.22 5);
+  --ring: oklch(0.6 0.22 5);
+}
+[data-primary="green"] {
+  --primary: oklch(0.55 0.18 145);
+  --ring: oklch(0.55 0.18 145);
+}
+[data-primary="orange"] {
+  --primary: oklch(0.65 0.19 50);
+  --ring: oklch(0.65 0.19 50);
+}
+
+.dark[data-primary="blue"] {
+  --primary: oklch(0.72 0.16 252);
+  --primary-foreground: oklch(0.15 0 0);
+}
+.dark[data-primary="violet"] {
+  --primary: oklch(0.74 0.17 295);
+  --primary-foreground: oklch(0.15 0 0);
+}
+.dark[data-primary="pink"] {
+  --primary: oklch(0.76 0.18 5);
+  --primary-foreground: oklch(0.15 0 0);
+}
+.dark[data-primary="green"] {
+  --primary: oklch(0.78 0.16 145);
+  --primary-foreground: oklch(0.15 0 0);
+}
+.dark[data-primary="orange"] {
+  --primary: oklch(0.82 0.16 60);
+  --primary-foreground: oklch(0.15 0 0);
+}
+
+[data-radius="sharp"] {
+  --radius: 0.125rem;
+}
+[data-radius="default"] {
+  --radius: 0.625rem;
+}
+[data-radius="rounded"] {
+  --radius: 1rem;
+}
+
+@keyframes hero-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@keyframes hero-sweep {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+@keyframes hero-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-spin,
+  .hero-sweep,
+  .hero-pulse {
+    animation: none;
   }
 }

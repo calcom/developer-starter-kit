@@ -24,9 +24,10 @@ export function DatePicker({
   availableDays,
   onSelectDate,
 }: DatePickerProps) {
+  const isAvailable = (day: Date) => availableDays.has(formatKey(day));
   const isDayDisabled = (day: Date) => {
     if (availableDays.size === 0) return false;
-    return !availableDays.has(formatKey(day));
+    return !isAvailable(day);
   };
 
   return (
@@ -39,6 +40,11 @@ export function DatePicker({
         if (date) onSelectDate(date);
       }}
       disabled={[(day: Date) => day < startOfToday() || isDayDisabled(day)]}
+      modifiers={{ available: isAvailable }}
+      modifiersClassNames={{
+        available:
+          "[&_button]:bg-emphasis [&_button]:text-foreground [&_button]:font-semibold [&_button]:hover:bg-accent",
+      }}
       weekStartsOn={0}
       className="w-full"
     />

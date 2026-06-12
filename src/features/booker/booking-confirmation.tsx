@@ -2,26 +2,34 @@
 
 import { formatInTimeZone } from "date-fns-tz";
 import { CalendarCheckIcon, ClockIcon, GlobeIcon } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { CancelBookingDialog } from "@/features/booking/cancel-booking-dialog";
 import type { Booking } from "@/lib/cal-api/types";
 
 type BookingConfirmationProps = {
   booking: Booking;
   timeZone: string;
   timeFormat: "12h" | "24h";
-  brandName?: string;
+  username?: string;
+  eventTypeSlug?: string;
 };
 
 export function BookingConfirmation({
   booking,
   timeZone,
   timeFormat,
-  brandName,
+  username,
+  eventTypeSlug,
 }: BookingConfirmationProps) {
-  const manageUrl = `/booking/${booking.uid}`;
   const formatPattern = timeFormat === "12h" ? "h:mm a" : "HH:mm";
+  const rescheduleHref =
+    username && eventTypeSlug
+      ? `/book/${username}/${eventTypeSlug}?rescheduleUid=${booking.uid}`
+      : null;
+  const isLive = booking.status === "accepted" || booking.status === "pending";
 
   return (
     <div className="flex h-full flex-col items-center justify-center gap-6 p-10 text-center">
@@ -55,16 +63,16 @@ export function BookingConfirmation({
         </Row>
       </dl>
 
-      <div className="flex flex-wrap justify-center gap-2">
-        <Button asChild>
-          <a href={manageUrl}>Manage booking</a>
-        </Button>
-        {brandName ? (
-          <Button asChild variant="ghost">
-            <a href="/">Back to {brandName}</a>
-          </Button>
-        ) : null}
-      </div>
+      {isLive ? (
+        <div className="flex flex-wrap justify-center gap-2">
+          {rescheduleHref ? (
+            <Button asChild variant="outline">
+              <Link href={rescheduleHref}>Reschedule</Link>
+            </Button>
+          ) : null}
+          <CancelBookingDialog bookingUid={booking.uid} triggerLabel="Cancel booking" />
+        </div>
+      ) : null}
     </div>
   );
 }

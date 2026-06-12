@@ -79,6 +79,8 @@ export function Booker({
           booking={confirmedBooking}
           timeZone={timeZone}
           timeFormat={timeFormat}
+          username={confirmedBooking.hosts[0]?.username}
+          eventTypeSlug={confirmedBooking.eventType?.slug ?? eventType.slug}
         />
       </div>
     );
@@ -92,6 +94,7 @@ export function Booker({
             eventType={eventType}
             selectedSlot={selectedSlot}
             timeZone={timeZone}
+            onTimeZoneChange={setTimeZone}
             timeFormat={timeFormat}
             formerSlotStart={rescheduleBookingUid ? null : null}
           />
@@ -118,6 +121,7 @@ export function Booker({
           eventType={eventType}
           selectedSlot={selectedSlot}
           timeZone={timeZone}
+          onTimeZoneChange={setTimeZone}
           timeFormat={timeFormat}
         />
       </div>

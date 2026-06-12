@@ -103,7 +103,9 @@ For single-tenant use, edit `src/lib/routing/registry.ts` to define your fields 
 
 The shadcn primitives in `src/components/ui/` read CSS variables defined in `src/app/globals.css`. Tweak the `--primary`, `--background`, `--emphasis` tokens (and their `.dark` counterparts) and the entire app follows. Tailwind v4's `@theme inline` block wires those variables to utility classes.
 
-To plug in your brand font, replace the Geist imports in `src/app/layout.tsx`.
+### Fonts
+
+The starter uses **Cal Sans** (the Cal.com brand typeface) loaded via `next/font/local` in `src/app/layout.tsx`. The woff2 files live in `src/fonts/` and are exposed as `--font-sans` (UI body) and `--font-heading` (display headings). To swap for another font, replace the files in `src/fonts/` or switch to `next/font/google`.
 
 ## Why not just use `@calcom/atoms`?
 

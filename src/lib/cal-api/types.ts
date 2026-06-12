@@ -80,7 +80,7 @@ export type BookingField = {
 };
 
 export type Slot = {
-  time: string;
+  start: string;
   attendees?: number;
   bookingUid?: string;
 };
@@ -104,7 +104,7 @@ export type Booking = {
   end: string;
   duration: number;
   eventTypeId: number;
-  eventType?: Pick<EventType, "id" | "slug" | "title">;
+  eventType?: { id: number; slug: string; title?: string };
   attendees: BookingAttendee[];
   hosts: Array<{ id: number; name: string; email: string; username?: string }>;
   meetingUrl?: string | null;

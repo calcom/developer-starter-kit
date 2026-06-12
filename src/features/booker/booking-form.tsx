@@ -60,13 +60,13 @@ export function BookingForm({
       const result = isReschedule
         ? await rescheduleBookingAction({
             uid: rescheduleBookingUid!,
-            start: slot.time,
+            start: slot.start,
             reschedulingReason: values.reschedulingReason,
             rescheduledBy: values.email,
           })
         : await createBookingAction({
             eventTypeId: eventType.id,
-            start: slot.time,
+            start: slot.start,
             attendee: {
               name: values.name,
               email: values.email,
