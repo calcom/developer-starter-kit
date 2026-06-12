@@ -51,10 +51,8 @@ export function CancelBookingDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="destructive" className={triggerClassName}>
-          {triggerLabel}
-        </Button>
+      <DialogTrigger render={<Button variant="destructive" className={triggerClassName} />}>
+        {triggerLabel}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

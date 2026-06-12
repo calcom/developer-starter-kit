@@ -63,7 +63,7 @@ export function TimezonePicker({ value, onChange, className }: TimezonePickerPro
   const timezones = useMemo(() => getSupportedTimeZones(), []);
 
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={value} onValueChange={(v) => v && onChange(v)}>
       <SelectTrigger
         className={`h-7 w-auto gap-1 border-0 bg-transparent px-1 text-sm font-medium shadow-none focus:ring-0 ${className ?? ""}`}
       >

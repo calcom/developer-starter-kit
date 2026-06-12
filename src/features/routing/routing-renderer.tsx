@@ -105,7 +105,7 @@ export function RoutingRenderer({ routing }: RoutingRendererProps) {
                 ) : field.type === "select" ? (
                   <Select
                     value={responses[field.id] ?? ""}
-                    onValueChange={(value) => setValue(field.id, value)}
+                    onValueChange={(value) => value !== null && setValue(field.id, value)}
                   >
                     <SelectTrigger id={id}>
                       <SelectValue placeholder={field.placeholder ?? "Pick an option"} />

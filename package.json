@@ -12,6 +12,7 @@
     "check": "biome check --write ."
   },
   "dependencies": {
+    "@base-ui/react": "^1.5.0",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-label": "^2.1.2",
@@ -25,10 +26,10 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "lucide-react": "^0.469.0",
+    "lucide-react": "^1.17.0",
     "next": "16.2.9",
     "react": "19.2.4",
-    "react-day-picker": "9.5.0",
+    "react-day-picker": "^10.0.1",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.54.2",
     "sonner": "^1.7.4",

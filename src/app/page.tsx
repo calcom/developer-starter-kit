@@ -79,17 +79,19 @@ export default async function HomePage() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Button asChild size="lg" className="h-11 px-6 text-sm">
-            <Link href={bookerHref}>
-              Open the Booker
-              <ArrowRightIcon />
-            </Link>
+          <Button
+            size="xl"
+            className="px-6 text-sm sm:h-11 sm:text-sm"
+            render={<Link href={bookerHref} />}
+          >
+            Open the Booker
+            <ArrowRightIcon />
           </Button>
           <a
             href={REPO_URL}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex h-11 items-stretch overflow-hidden rounded-md border border-input bg-background text-sm font-medium shadow-sm transition-colors hover:border-foreground/30"
+            className="group inline-flex h-11 items-stretch overflow-hidden rounded-lg border border-input bg-background text-sm font-medium shadow-xs/5 transition-colors hover:border-foreground/30"
           >
             <span className="inline-flex items-center gap-2 px-5 transition-colors group-hover:bg-accent">
               <GitHubIcon className="size-4" />
@@ -376,11 +378,9 @@ function FlowCard({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <Button asChild variant={ctaVariant}>
-          <Link href={href}>
-            {ctaLabel}
-            <ArrowRightIcon className="transition-transform group-hover:translate-x-0.5" />
-          </Link>
+        <Button variant={ctaVariant} render={<Link href={href} />}>
+          {ctaLabel}
+          <ArrowRightIcon className="transition-transform group-hover:translate-x-0.5" />
         </Button>
       </CardContent>
     </Card>

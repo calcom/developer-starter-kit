@@ -1,73 +1,119 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker, getDefaultClassNames } from "react-day-picker";
-
 import { cn } from "@/lib/utils";
+import { ChevronLeftIcon, ChevronRightIcon, ChevronsUpDownIcon } from "lucide-react";
+import type * as React from "react";
+import { DayPicker } from "react-day-picker";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+const buttonClassNames =
+  "relative flex size-(--cell-size) text-base sm:text-sm items-center justify-center text-foreground not-in-data-selected:hover:bg-accent disabled:pointer-events-none disabled:opacity-40 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0";
 
-function Calendar({ className, classNames, showOutsideDays = false, ...props }: CalendarProps) {
-  const defaults = getDefaultClassNames();
+export function Calendar({
+  className,
+  classNames,
+  showOutsideDays = false,
+  components: userComponents,
+  mode = "single",
+  ...props
+}: React.ComponentProps<typeof DayPicker>): React.ReactElement {
+  const defaultClassNames = {
+    button_next: buttonClassNames,
+    button_previous: buttonClassNames,
+    caption_label: "text-base sm:text-sm font-medium flex items-center gap-2 h-full",
+    day: "flex flex-1 items-center justify-center h-16 sm:h-14 text-sm",
+    day_button: cn(
+      "calendar-day-btn relative flex size-13 items-center justify-center rounded-full text-base font-medium text-foreground transition-colors not-in-data-selected:hover:bg-accent in-data-disabled:pointer-events-none in-data-disabled:text-muted-foreground/40 in-data-disabled:opacity-40 in-data-outside:text-muted-foreground/40 in-data-selected:bg-primary in-data-selected:text-primary-foreground in-data-selected:in-data-outside:text-primary-foreground outline-none focus-visible:z-1 focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:size-12",
+    ),
+    dropdown: "absolute bg-popover inset-0 opacity-0",
+    dropdown_root:
+      "relative has-focus:border-ring has-focus:ring-ring/50 has-focus:ring-[3px] border border-input shadow-xs/5 rounded-lg px-[calc(--spacing(3)-1px)] h-9 sm:h-8 [&_svg:not([class*='opacity-'])]:opacity-80 [&_svg:not([class*='size-'])]:size-4.5 sm:[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:-me-1",
+    dropdowns:
+      "w-full flex items-center text-base sm:text-sm justify-center h-(--cell-size) gap-1.5 *:[span]:font-medium",
+    hidden: "invisible",
+    month: "w-full",
+    month_grid: "w-full border-collapse",
+    selected:
+      "[&_button]:bg-primary [&_button]:text-primary-foreground [&_button]:font-semibold",
+    weekdays: "flex w-full gap-1",
+    week: "mt-1 flex w-full gap-1",
+    month_caption:
+      "relative mx-(--cell-size) px-1 mb-1 flex h-(--cell-size) items-center justify-center z-2",
+    months: "relative flex flex-col sm:flex-row gap-2",
+    nav: "absolute top-0 flex w-full justify-between z-1",
+    outside: "text-muted-foreground data-selected:bg-accent/50 data-selected:text-muted-foreground",
+    range_end: "range-end",
+    range_middle: "range-middle",
+    range_start: "range-start",
+    today:
+      "*:after:pointer-events-none *:after:absolute *:after:bottom-1 *:after:start-1/2 *:after:z-1 *:after:size-[3px] *:after:-translate-x-1/2 *:after:rounded-full *:after:bg-primary [&[data-selected]:not(.range-middle)>*]:after:bg-background [&[data-disabled]>*]:after:bg-foreground/30 *:after:transition-colors",
+    week_number: "size-(--cell-size) p-0 text-xs font-medium text-muted-foreground/72",
+    weekday: "flex-1 h-8 p-0 text-xs font-medium text-muted-foreground/72",
+  };
+  const mergedClassNames: typeof defaultClassNames = Object.keys(defaultClassNames).reduce(
+    (acc, key) => {
+      const userClass = classNames?.[key as keyof typeof classNames];
+      const baseClass = defaultClassNames[key as keyof typeof defaultClassNames];
 
-  return (
-    <DayPicker
-      showOutsideDays={showOutsideDays}
-      className={cn("relative w-full p-3 sm:p-4", className)}
-      classNames={{
-        ...defaults,
-        months: cn(defaults.months, "flex w-full flex-col gap-4 sm:flex-row"),
-        month: cn(defaults.month, "flex w-full flex-col gap-5"),
-        month_caption: cn(defaults.month_caption, "flex h-9 items-center justify-center"),
-        caption_label: cn(defaults.caption_label, "text-base font-semibold tracking-tight"),
-        nav: cn(
-          defaults.nav,
-          "pointer-events-none absolute left-3 right-3 top-3 z-10 flex h-9 items-center justify-between sm:left-4 sm:right-4 sm:top-4",
-        ),
-        button_previous: cn(
-          defaults.button_previous,
-          "pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-emphasis hover:text-foreground transition-colors disabled:opacity-30",
-        ),
-        button_next: cn(
-          defaults.button_next,
-          "pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-emphasis hover:text-foreground transition-colors disabled:opacity-30",
-        ),
-        month_grid: cn(defaults.month_grid, "w-full table-fixed border-collapse"),
-        weekdays: cn(defaults.weekdays, "flex w-full gap-1"),
-        weekday: cn(
-          defaults.weekday,
-          "text-muted-foreground flex-1 h-8 font-medium text-[0.7rem] uppercase tracking-wider",
-        ),
-        week: cn(defaults.week, "mt-1 flex w-full gap-1"),
-        day: cn(defaults.day, "relative flex-1 p-0 text-center text-sm aspect-square"),
-        day_button: cn(
-          defaults.day_button,
-          "calendar-day-btn inline-flex h-full w-full items-center justify-center p-0 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:text-muted-foreground disabled:opacity-40",
-        ),
-        selected: cn(
-          defaults.selected,
-          "[&_button]:bg-primary [&_button]:text-primary-foreground [&_button]:hover:bg-primary [&_button]:hover:text-primary-foreground",
-        ),
-        today: cn(
-          defaults.today,
-          "[&_button]:relative [&_button]:after:absolute [&_button]:after:left-1/2 [&_button]:after:-translate-x-1/2 [&_button]:after:bottom-1 [&_button]:after:h-1 [&_button]:after:w-1 [&_button]:after:rounded-full [&_button]:after:bg-primary [&_button[aria-selected=true]]:after:bg-primary-foreground",
-        ),
-        outside: cn(defaults.outside, "text-muted-foreground opacity-50"),
-        disabled: cn(defaults.disabled, "text-muted-foreground opacity-30"),
-        hidden: cn(defaults.hidden, "invisible"),
-        ...classNames,
-      }}
-      components={{
-        Chevron: ({ orientation, ...chevronProps }) => {
-          if (orientation === "left") {
-            return <ChevronLeft className="h-4 w-4" {...chevronProps} />;
-          }
-          return <ChevronRight className="h-4 w-4" {...chevronProps} />;
-        },
-      }}
-      {...props}
-    />
+      acc[key as keyof typeof defaultClassNames] = userClass ? cn(baseClass, userClass) : baseClass;
+
+      return acc;
+    },
+    { ...defaultClassNames } as typeof defaultClassNames,
   );
-}
 
-export { Calendar };
+  const defaultComponents = {
+    Chevron: ({
+      className,
+      orientation,
+      ...props
+    }: {
+      className?: string;
+      orientation?: "left" | "right" | "up" | "down";
+    }): React.ReactElement => {
+      if (orientation === "left") {
+        return (
+          <ChevronLeftIcon
+            className={cn(className, "rtl:rotate-180")}
+            {...props}
+            aria-hidden="true"
+          />
+        );
+      }
+
+      if (orientation === "right") {
+        return (
+          <ChevronRightIcon
+            className={cn(className, "rtl:rotate-180")}
+            {...props}
+            aria-hidden="true"
+          />
+        );
+      }
+
+      return <ChevronsUpDownIcon className={className} {...props} aria-hidden="true" />;
+    },
+  };
+
+  const mergedComponents = {
+    ...defaultComponents,
+    ...userComponents,
+  };
+
+  const dayPickerProps = {
+    className: cn(
+      "w-full px-4 py-2 sm:px-6 sm:py-3 [--cell-size:--spacing(10)] sm:[--cell-size:--spacing(11)]",
+      className,
+    ),
+    classNames: mergedClassNames,
+    components: mergedComponents,
+    "data-slot": "calendar",
+    formatters: {
+      formatMonthDropdown: (date: Date) => date.toLocaleString("default", { month: "short" }),
+    } as React.ComponentProps<typeof DayPicker>["formatters"],
+    mode,
+    showOutsideDays,
+    ...props,
+  };
+
+  return <DayPicker {...(dayPickerProps as React.ComponentProps<typeof DayPicker>)} />;
+}

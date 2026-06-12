@@ -118,8 +118,12 @@ export function BookingDetails({
           {!isCancelled ? (
             <div className="flex items-stretch gap-2">
               {rescheduleHref ? (
-                <Button asChild variant="outline" className="flex-1">
-                  <Link href={rescheduleHref}>Reschedule</Link>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  render={<Link href={rescheduleHref} />}
+                >
+                  Reschedule
                 </Button>
               ) : null}
               <CancelBookingDialog bookingUid={booking.uid} triggerClassName="flex-1" />

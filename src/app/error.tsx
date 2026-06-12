@@ -32,8 +32,12 @@ export default function GlobalError({
           <RotateCcwIcon className="size-4" />
           Try again
         </Button>
-        <Button variant="outline" asChild>
-          <a href="/">Go home</a>
+        <Button
+          variant="outline"
+          // biome-ignore lint/a11y/useAnchorContent: text is provided as Button children via Base UI render prop
+          render={<a href="/" />}
+        >
+          Go home
         </Button>
       </div>
     </main>
