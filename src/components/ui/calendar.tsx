@@ -13,36 +13,36 @@ function Calendar({ className, classNames, showOutsideDays = false, ...props }: 
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-4", className)}
+      className={cn("relative w-full p-3 sm:p-4", className)}
       classNames={{
         ...defaults,
-        months: cn(defaults.months, "flex flex-col sm:flex-row gap-4"),
-        month: cn(defaults.month, "flex flex-col gap-5"),
-        month_caption: cn(
-          defaults.month_caption,
-          "relative flex items-center justify-center pt-1 h-9",
-        ),
+        months: cn(defaults.months, "flex w-full flex-col gap-4 sm:flex-row"),
+        month: cn(defaults.month, "flex w-full flex-col gap-5"),
+        month_caption: cn(defaults.month_caption, "flex h-9 items-center justify-center"),
         caption_label: cn(defaults.caption_label, "text-base font-semibold tracking-tight"),
-        nav: cn(defaults.nav, "flex items-center gap-1"),
+        nav: cn(
+          defaults.nav,
+          "pointer-events-none absolute left-3 right-3 top-3 z-10 flex h-9 items-center justify-between sm:left-4 sm:right-4 sm:top-4",
+        ),
         button_previous: cn(
           defaults.button_previous,
-          "absolute left-0 inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-emphasis hover:text-foreground transition-colors disabled:opacity-30",
+          "pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-emphasis hover:text-foreground transition-colors disabled:opacity-30",
         ),
         button_next: cn(
           defaults.button_next,
-          "absolute right-0 inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-emphasis hover:text-foreground transition-colors disabled:opacity-30",
+          "pointer-events-auto inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-emphasis hover:text-foreground transition-colors disabled:opacity-30",
         ),
-        month_grid: cn(defaults.month_grid, "w-full border-collapse"),
-        weekdays: cn(defaults.weekdays, "flex"),
+        month_grid: cn(defaults.month_grid, "w-full table-fixed border-collapse"),
+        weekdays: cn(defaults.weekdays, "flex w-full gap-1"),
         weekday: cn(
           defaults.weekday,
-          "text-muted-foreground w-11 h-8 font-medium text-[0.7rem] uppercase tracking-wider",
+          "text-muted-foreground flex-1 h-8 font-medium text-[0.7rem] uppercase tracking-wider",
         ),
-        week: cn(defaults.week, "flex w-full mt-1"),
-        day: cn(defaults.day, "h-11 w-11 text-center text-sm p-0 relative"),
+        week: cn(defaults.week, "mt-1 flex w-full gap-1"),
+        day: cn(defaults.day, "relative flex-1 p-0 text-center text-sm aspect-square"),
         day_button: cn(
           defaults.day_button,
-          "inline-flex h-10 w-10 items-center justify-center rounded-full p-0 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:text-muted-foreground disabled:opacity-40",
+          "calendar-day-btn inline-flex h-full w-full items-center justify-center p-0 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:text-muted-foreground disabled:opacity-40",
         ),
         selected: cn(
           defaults.selected,

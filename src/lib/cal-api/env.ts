@@ -18,6 +18,10 @@ export function getDefaultUsername() {
   return process.env.NEXT_PUBLIC_CAL_USERNAME ?? "";
 }
 
+export function getDefaultEventTypeSlug() {
+  return process.env.NEXT_PUBLIC_CAL_EVENT_TYPE_SLUG ?? "30min";
+}
+
 export function getBrandName() {
   return process.env.NEXT_PUBLIC_BRAND_NAME ?? "Cal Platform Starter";
 }

@@ -4,17 +4,17 @@ import {
   CircleCheckBigIcon,
   FormInputIcon,
   PaintbrushIcon,
+  RocketIcon,
   SparklesIcon,
   TerminalIcon,
 } from "lucide-react";
 import Link from "next/link";
 
 import { HeroBackground } from "@/components/hero-background";
-import { LayoutCustomizer } from "@/components/layout-customizer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookingLookupCard } from "@/features/booking/booking-lookup-card";
-import { getDefaultUsername } from "@/lib/cal-api/env";
+import { getDefaultEventTypeSlug, getDefaultUsername } from "@/lib/cal-api/env";
 
 const REPO_URL = "https://github.com/calcom/platform-starter";
 const FORK_URL = `${REPO_URL}/fork`;
@@ -51,12 +51,14 @@ function GitHubIcon({ className }: { className?: string }) {
 
 export default function HomePage() {
   const username = getDefaultUsername();
-  const bookerHref = username ? `/book/${username}/30min` : "/book/your-username/30min";
+  const eventSlug = getDefaultEventTypeSlug();
+  const bookerHref = username
+    ? `/book/${username}/${eventSlug}`
+    : `/book/your-username/${eventSlug}`;
 
   return (
     <main className="relative">
       <HeroBackground />
-      <LayoutCustomizer />
 
       <section className="mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-24 text-center sm:pt-32">
         <div className="inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur">
@@ -96,6 +98,10 @@ export default function HomePage() {
         </dl>
       </section>
 
+      <section className="mx-auto flex max-w-5xl justify-center px-6 pb-20">
+        <ShadcnTeaserBanner />
+      </section>
+
       <section className="mx-auto max-w-5xl px-6 pb-20">
         <header className="mb-8 max-w-2xl">
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -113,7 +119,7 @@ export default function HomePage() {
             title="Public booking page"
             description="Month calendar, time slots, attendee form, confirmation. The flagship flow."
             href={bookerHref}
-            ctaLabel={username ? `/book/${username}/30min` : "/book/[username]/[eventSlug]"}
+            ctaLabel={username ? `/book/${username}/${eventSlug}` : "/book/[username]/[eventSlug]"}
           />
           <BookingLookupCard />
           <FlowCard
@@ -228,6 +234,93 @@ bun dev`}</code>
         </div>
       </section>
     </main>
+  );
+}
+
+function ShadcnTeaserBanner() {
+  return (
+    <div className="group relative w-full" style={{ maxWidth: "560px" }}>
+      <div
+        className="relative overflow-hidden"
+        style={{
+          borderRadius: "18px",
+          background: "var(--background)",
+          border: "1px solid color-mix(in oklab, var(--border) 70%, transparent)",
+          boxShadow: "0 16px 40px -22px rgba(0,0,0,0.25)",
+        }}
+      >
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            opacity: 0.18,
+            backgroundImage:
+              "radial-gradient(circle, var(--muted-foreground) 1px, transparent 1px)",
+            backgroundSize: "16px 16px",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 50% 100% at 100% 50%, black, transparent 70%)",
+            maskImage: "radial-gradient(ellipse 50% 100% at 100% 50%, black, transparent 70%)",
+          }}
+        />
+
+        <div className="relative flex items-center" style={{ gap: "16px", padding: "18px 22px" }}>
+          <div
+            className="shrink-0"
+            style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "12px",
+              background:
+                "linear-gradient(135deg, color-mix(in oklab, var(--foreground) 18%, transparent), color-mix(in oklab, var(--foreground) 8%, transparent))",
+              border: "1px solid color-mix(in oklab, var(--border) 70%, transparent)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <RocketIcon
+              className="transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:-rotate-12"
+              style={{ width: "22px", height: "22px", color: "var(--foreground)" }}
+              strokeWidth={2}
+            />
+          </div>
+
+          <div className="flex min-w-0 flex-1 flex-col" style={{ gap: "3px" }}>
+            <div className="flex flex-wrap items-center" style={{ gap: "8px" }}>
+              <h3 style={{ fontSize: "15px", fontWeight: 600, letterSpacing: "-0.005em" }}>
+                Install from shadcn registry
+              </h3>
+              <span
+                className="inline-flex items-center"
+                style={{
+                  gap: "3px",
+                  borderRadius: "999px",
+                  padding: "1px 7px",
+                  background: "color-mix(in oklab, var(--muted) 80%, transparent)",
+                  color: "var(--muted-foreground)",
+                  fontSize: "9px",
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Coming soon
+              </span>
+            </div>
+            <p
+              style={{
+                fontSize: "13px",
+                color: "var(--muted-foreground)",
+                lineHeight: 1.45,
+              }}
+            >
+              Pull every primitive and flow into your project with one command.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -74,7 +74,10 @@ export function Booker({
 
   if (step === "confirmation" && confirmedBooking) {
     return (
-      <div className="mx-auto grid max-w-3xl overflow-hidden rounded-2xl border bg-card shadow-sm">
+      <div
+        key="step-confirmation"
+        className="step-enter mx-auto grid max-w-3xl overflow-hidden rounded-2xl border bg-card shadow-sm"
+      >
         <BookingConfirmation
           booking={confirmedBooking}
           timeZone={timeZone}
@@ -88,7 +91,10 @@ export function Booker({
 
   if (step === "attendee_form" && selectedSlot) {
     return (
-      <div className="mx-auto grid max-w-5xl overflow-hidden rounded-2xl border bg-card shadow-sm md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div
+        key="step-attendee"
+        className="step-enter mx-auto grid max-w-5xl overflow-hidden rounded-2xl border bg-card shadow-sm md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
+      >
         <div className="border-b md:border-b-0 md:border-r">
           <EventMeta
             eventType={eventType}
@@ -115,7 +121,10 @@ export function Booker({
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl overflow-hidden rounded-2xl border bg-card shadow-sm md:grid-cols-[minmax(260px,1fr)_minmax(0,1.4fr)_minmax(220px,1fr)]">
+    <div
+      key="step-date"
+      className="step-enter mx-auto grid max-w-6xl overflow-hidden rounded-2xl border bg-card shadow-sm md:grid-cols-[minmax(260px,1fr)_minmax(0,1.4fr)_minmax(220px,1fr)]"
+    >
       <div className="border-b md:border-b-0 md:border-r">
         <EventMeta
           eventType={eventType}
@@ -126,7 +135,7 @@ export function Booker({
         />
       </div>
 
-      <div className="flex items-start justify-center border-b p-4 sm:p-6 md:border-b-0 md:border-r">
+      <div className="flex w-full items-stretch border-b md:border-b-0 md:border-r">
         <DatePicker
           month={currentMonth}
           onMonthChange={setCurrentMonth}
