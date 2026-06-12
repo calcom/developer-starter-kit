@@ -1,6 +1,6 @@
 import { HeartIcon } from "lucide-react";
 
-const REPO_URL = "https://github.com/calcom/cal-platform-starter";
+const REPO_URL = "https://github.com/calcom/platform-starter";
 
 export function SiteFooter() {
   return (
