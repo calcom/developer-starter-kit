@@ -12,7 +12,7 @@ A Next.js template for embedding Cal.com Platform flows in your product, without
 | `/book/[username]/[eventSlug]` | Public booking widget — month calendar, time slots, attendee form, confirmation |
 | `/book/[username]/[eventSlug]?rescheduleUid=…` | Same widget in reschedule mode |
 | `/booking/[uid]` | Manage an existing booking — view, reschedule, cancel |
-| `/forms/[formId]` | Config-driven routing form that maps responses to event types |
+| `/routing/[id]` | Config-driven routing that maps form responses to event types |
 
 Every flow talks to the **Cal.com API v2** through a thin server-side client (`src/lib/cal-api/`). No client-side SDK. No `@calcom/atoms` dependency.
 
@@ -57,17 +57,17 @@ src/
 │   ├── page.tsx              # landing
 │   ├── book/[username]/[eventSlug]/page.tsx
 │   ├── booking/[uid]/page.tsx
-│   └── forms/[formId]/page.tsx
+│   └── routing/[id]/page.tsx
 ├── components/
 │   ├── theme-provider.tsx
 │   └── ui/                   # shadcn primitives — own them, edit them
 ├── features/
 │   ├── booker/               # booking widget — every panel and step
 │   ├── booking/              # manage-booking flow
-│   └── routing-form/         # routing form renderer
+│   └── routing/              # routing renderer
 └── lib/
     ├── cal-api/              # typed Cal.com API v2 client (server-only)
-    ├── routing-forms/        # local routing form registry + evaluator
+    ├── routing/              # local routing registry + evaluator
     └── utils.ts
 ```
 
@@ -87,13 +87,13 @@ features/booker/
 └── types.ts
 ```
 
-## Routing forms
+## Routing
 
-The starter ships with a **config-driven** routing form (`src/lib/routing-forms/registry.ts`). It mirrors the embedder-facing UX: collect responses, evaluate routes, send the visitor to the matching event type.
+The starter ships with a **config-driven** routing flow (`src/lib/routing/registry.ts`). It mirrors the embedder-facing UX: collect responses, evaluate rules, send the visitor to the matching event type.
 
 The Cal.com API v2 exposes routing forms only under the **organization** scope (`/organizations/{orgId}/routing-forms`). If you have org credentials, replace the local registry with `getOrgRoutingForms` and `getOrgRoutingFormResponses` calls — the renderer doesn't change.
 
-For single-tenant use, edit `src/lib/routing-forms/registry.ts` to define your form structure and routes. Each route maps response equality to either:
+For single-tenant use, edit `src/lib/routing/registry.ts` to define your fields and rules. Each rule maps response equality to either:
 
 - another booker page (`{ kind: "event-type" }`)
 - an external URL (`{ kind: "url" }`)

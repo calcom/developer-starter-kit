@@ -1,34 +1,34 @@
-export type RoutingFormFieldType = "text" | "email" | "select" | "multiselect" | "textarea";
+export type RoutingFieldType = "text" | "email" | "select" | "multiselect" | "textarea";
 
-export type RoutingFormFieldOption = {
+export type RoutingFieldOption = {
   value: string;
   label: string;
 };
 
-export type RoutingFormField = {
+export type RoutingField = {
   id: string;
-  type: RoutingFormFieldType;
+  type: RoutingFieldType;
   label: string;
   placeholder?: string;
   required?: boolean;
-  options?: RoutingFormFieldOption[];
+  options?: RoutingFieldOption[];
 };
 
-export type RoutingRuleAction =
+export type RoutingAction =
   | { kind: "event-type"; username: string; eventSlug: string }
   | { kind: "url"; url: string }
   | { kind: "message"; title: string; description?: string };
 
 export type RoutingRule = {
   when: Array<{ fieldId: string; equals: string }>;
-  outcome: RoutingRuleAction;
+  outcome: RoutingAction;
 };
 
-export type RoutingForm = {
+export type Routing = {
   id: string;
   title: string;
   description?: string;
-  fields: RoutingFormField[];
-  routes: RoutingRule[];
-  fallback: RoutingRuleAction;
+  fields: RoutingField[];
+  rules: RoutingRule[];
+  fallback: RoutingAction;
 };

@@ -76,7 +76,7 @@ export default function HomePage() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-              <FormInputIcon className="size-4" /> Routing form
+              <FormInputIcon className="size-4" /> Routing
             </div>
             <CardTitle>Conditional routing</CardTitle>
             <CardDescription>
@@ -85,8 +85,8 @@ export default function HomePage() {
           </CardHeader>
           <CardContent>
             <Button asChild variant="outline">
-              <Link href="/forms/your-form-id">
-                /forms/[formId]
+              <Link href="/routing/sales-intake">
+                /routing/[id]
                 <ArrowRightIcon />
               </Link>
             </Button>

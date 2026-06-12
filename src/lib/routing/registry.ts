@@ -1,9 +1,9 @@
 import { getDefaultUsername } from "@/lib/cal-api/env";
-import type { RoutingForm } from "./types";
+import type { Routing } from "./types";
 
 const username = getDefaultUsername() || "your-username";
 
-const SALES_INTAKE: RoutingForm = {
+const SALES_INTAKE: Routing = {
   id: "sales-intake",
   title: "Tell us about your project",
   description: "We'll route you to the right specialist on our team.",
@@ -38,7 +38,7 @@ const SALES_INTAKE: RoutingForm = {
       placeholder: "Tell us a bit more...",
     },
   ],
-  routes: [
+  rules: [
     {
       when: [{ fieldId: "interest", equals: "demo" }],
       outcome: { kind: "event-type", username, eventSlug: "30min" },
@@ -55,15 +55,15 @@ const SALES_INTAKE: RoutingForm = {
   },
 };
 
-const FORMS: Record<string, RoutingForm> = {
+const ROUTINGS: Record<string, Routing> = {
   "sales-intake": SALES_INTAKE,
   "your-form-id": SALES_INTAKE,
 };
 
-export function getRoutingForm(id: string): RoutingForm | null {
-  return FORMS[id] ?? null;
+export function getRouting(id: string): Routing | null {
+  return ROUTINGS[id] ?? null;
 }
 
-export function listRoutingForms(): RoutingForm[] {
-  return Object.values(FORMS);
+export function listRoutings(): Routing[] {
+  return Object.values(ROUTINGS);
 }

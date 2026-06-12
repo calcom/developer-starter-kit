@@ -16,18 +16,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { buildActionUrl, evaluateRoutingForm } from "@/lib/routing-forms/evaluate";
-import type { RoutingForm, RoutingRuleAction } from "@/lib/routing-forms/types";
+import { buildActionUrl, evaluateRouting } from "@/lib/routing/evaluate";
+import type { Routing, RoutingAction } from "@/lib/routing/types";
 
-type RoutingFormRendererProps = {
-  form: RoutingForm;
+type RoutingRendererProps = {
+  routing: Routing;
 };
 
-export function RoutingFormRenderer({ form }: RoutingFormRendererProps) {
+export function RoutingRenderer({ routing }: RoutingRendererProps) {
   const router = useRouter();
   const [responses, setResponses] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [outcome, setOutcome] = useState<RoutingRuleAction | null>(null);
+  const [outcome, setOutcome] = useState<RoutingAction | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function setValue(id: string, value: string) {
@@ -38,7 +38,7 @@ export function RoutingFormRenderer({ form }: RoutingFormRendererProps) {
     event.preventDefault();
 
     const nextErrors: Record<string, string> = {};
-    for (const field of form.fields) {
+    for (const field of routing.fields) {
       if (field.required && !responses[field.id]) {
         nextErrors[field.id] = "Required";
       }
@@ -47,7 +47,7 @@ export function RoutingFormRenderer({ form }: RoutingFormRendererProps) {
     if (Object.keys(nextErrors).length > 0) return;
 
     startTransition(() => {
-      const action = evaluateRoutingForm(form, responses);
+      const action = evaluateRouting(routing, responses);
       const href = buildActionUrl(action);
       if (href) {
         router.push(href);
@@ -71,12 +71,12 @@ export function RoutingFormRenderer({ form }: RoutingFormRendererProps) {
   return (
     <Card className="mx-auto max-w-xl">
       <CardHeader>
-        <CardTitle>{form.title}</CardTitle>
-        {form.description ? <CardDescription>{form.description}</CardDescription> : null}
+        <CardTitle>{routing.title}</CardTitle>
+        {routing.description ? <CardDescription>{routing.description}</CardDescription> : null}
       </CardHeader>
       <CardContent>
         <form className="space-y-5" onSubmit={onSubmit}>
-          {form.fields.map((field) => {
+          {routing.fields.map((field) => {
             const error = errors[field.id];
             const id = `field-${field.id}`;
             return (
